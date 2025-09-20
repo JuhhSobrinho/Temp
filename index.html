@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <title>Surpresa ❤️</title>
+    <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    /* Fundo animado */
+    .item {
+      position: absolute;
+      color: red;
+      font-size: 20px;
+      font-weight: bold;
+      animation: cair 6s linear forwards;
+      user-select: none;
+      white-space: nowrap;
+      z-index: 0;
+    }
+    @keyframes cair {
+      from { transform: translateY(-50px); opacity: 1; }
+      to   { transform: translateY(100vh); opacity: 0; }
+    }
+
+    /* Carrossel */
+    .carrossel {
+      position: relative;
+      width: 90%;
+      max-width: 400px;
+      height: 500px;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 0, 100, 0.7);
+      z-index: 1;
+    }
+
+    .slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slides img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    /* Botões */
+    .controles {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+
+    .controles button {
+      background: rgba(0,0,0,0.5);
+      border: none;
+      color: white;
+      font-size: 24px;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    /* Música */
+    .musica-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: crimson;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 1;
+    }
+  </style>
+  </head>
+  <body>
+
+    <!-- Carrossel -->
+    <div class="carrossel">
+      <div class="slides">
+        <img src="./src/IMG-20240614-WA0041.jpg" alt="Foto 1">
+        <img src="./src/IMG-20240614-WA0043.jpg" alt="Foto 2">
+        <img src="./src/IMG-20240113-WA0003.jpg" alt="Foto 3">
+        <img src="./src/IMG-20231111-WA0002.jpg" alt="Foto 4">
+        <img src="./src/IMG-20230917-WA0007.jpg" alt="Foto 5">
+        <img src="./src/IMG-20230703-WA0029.jpg" alt="Foto 6">
+        <img src="./src/IMG-20230506-WA0038.jpg" alt="Foto 7">
+        <img src="./src/IMG-20230506-WA0025.jpg" alt="Foto 8">
+        <img src="./src/IMG-20220909-WA0018.jpg" alt="Foto 9">
+        <img src="./src/IMG-20220701-WA0027.jpg" alt="Foto 10">
+        <img src="./src/IMG_20241224_195642.jpg" alt="Foto 11">
+        <img src="./src/IMG_20221106_163053_135.jpg" alt="Foto 12">
+        <img src="./src/IMG_20221106_162854_297.jpg" alt="Foto 13">
+        <img src="./src/IMG_20220820_161156_694.webp" alt="Foto 14">
+
+      </div>
+      <div class="controles">
+        <button onclick="mudarSlide(-1)">❮</button>
+        <button onclick="mudarSlide(1)">❯</button>
+      </div>
+    </div>
+
+    <!-- Música -->
+    <button class="musica-btn" onclick="tocarMusica()">🎵 Tocar Música</button>
+    <audio id="musica" src="./src/Rubel.mp3" autoplay loop muted></audio>
+
+    <script>
+  /* ===== Fundo animado ===== */
+  const frases = [
+    "Eu te amo ❤️",
+    "Saudade 😘",
+    "Meu bem 💕",
+    "Você é especial 🌹",
+    "Sempre com você 💖",
+    "Amor eterno 💞",
+    "Meu coração é seu 💓",
+    "Você me faz sorrir 😊",
+    "Minha vida 💍",
+    "Te quero sempre 💌",
+    "OIIIII GATINHAAA 💓",
+    "meu Girasol 💓",
+    "Bemzinhoooo 💓",
+    "vidinha minha💓",
+    "É só vc 💓"
+  ];
+
+  function criarItem(x = Math.random() * window.innerWidth, y = -50) {
+    const item = document.createElement("div");
+    item.classList.add("item");
+    item.style.left = x + "px";
+    item.style.top = y + "px";
+    item.style.fontSize = (Math.random() * 30 + 15) + "px";
+
+    if (Math.random() < 0.6) {
+      item.innerText = "❤️";
+    } else {
+      item.innerText = frases[Math.floor(Math.random() * frases.length)];
+      item.style.color = "pink";
+    }
+
+    document.body.appendChild(item);
+    setTimeout(() => item.remove(), 6000);
+  }
+
+  setInterval(() => {
+    for (let i = 0; i < 5; i++) {
+      criarItem();
+    }
+  }, 300);
+
+  document.body.addEventListener("click", (e) => {
+    for (let i = 0; i < 20; i++) {
+      setTimeout(() => criarItem(
+        e.clientX + Math.random() * 120 - 60,
+        e.clientY + Math.random() * 120 - 60
+      ), i * 40);
+    }
+  });
+
+  /* ===== Carrossel ===== */
+  let slideIndex = 0;
+  const slides = document.querySelector(".slides");
+  const totalSlides = document.querySelectorAll(".slides img").length;
+
+  function mudarSlide(direcao) {
+    slideIndex = (slideIndex + direcao + totalSlides) % totalSlides;
+    slides.style.transform = `translateX(${-slideIndex * 100}%)`;
+  }
+
+  // Troca automático a cada 4 segundos
+  setInterval(() => {
+    mudarSlide(1);
+  }, 4000);
+
+  /* ===== Música ===== */
+    const musica = document.getElementById("musica");
+
+  // Ao primeiro clique, desmuta e continua tocando
+  document.addEventListener("click", () => {
+    if (musica.muted) {
+      musica.muted = false;
+      musica.play(); // garante que continue tocando
+      console.log("🎵 Música desmutada!");
+    }
+  });
+</script>
+
+  </body>
+</html>
