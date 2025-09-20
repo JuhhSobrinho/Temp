@@ -2,97 +2,10 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Surpresa ❤️</title>
-    <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: black;
-      overflow: hidden;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      font-family: Arial, sans-serif;
-      color: white;
-    }
-
-    /* Fundo animado */
-    .item {
-      position: absolute;
-      color: red;
-      font-size: 20px;
-      font-weight: bold;
-      animation: cair 6s linear forwards;
-      user-select: none;
-      white-space: nowrap;
-      z-index: 0;
-    }
-    @keyframes cair {
-      from { transform: translateY(-50px); opacity: 1; }
-      to   { transform: translateY(100vh); opacity: 0; }
-    }
-
-    /* Carrossel */
-    .carrossel {
-      position: relative;
-      width: 90%;
-      max-width: 400px;
-      height: 500px;
-      overflow: hidden;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(255, 0, 100, 0.7);
-      z-index: 1;
-    }
-
-    .slides {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.5s ease-in-out;
-    }
-
-    .slides img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-
-    /* Botões */
-    .controles {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-    }
-
-    .controles button {
-      background: rgba(0,0,0,0.5);
-      border: none;
-      color: white;
-      font-size: 24px;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 50%;
-    }
-
-    /* Música */
-    .musica-btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: crimson;
-      border: none;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      z-index: 1;
-    }
-  </style>
+    <link rel="stylesheet" href="./style.css">
   </head>
   <body>
 
@@ -114,6 +27,20 @@
         <img src="./src/IMG_20221106_162854_297.jpg" alt="Foto 13">
         <img src="./src/IMG_20220820_161156_694.webp" alt="Foto 14">
 
+        <img src="./src/IMG-20240614-WA0042.jpg" alt="Foto 15">
+        <img src="./src/IMG-20240324-WA0044.jpg" alt="Foto 16">
+        <img src="./src/IMG-20231111-WA0002 (1).jpg" alt="Foto 17">
+        <img src="./src/IMG-20230917-WA0012.jpg" alt="Foto 18">
+        <img src="./src/IMG-20230910-WA0005.jpg" alt="Foto 19">
+        <img src="./src/IMG-20230703-WA0028.jpg" alt="Foto 20">
+        <img src="./src/IMG-20230703-WA0022.jpg" alt="Foto 21">
+        <img src="./src/IMG-20230604-WA0008.jpg" alt="Foto 22">
+        <img src="./src/IMG-20230507-WA0001.jpg" alt="Foto 23">
+        <img src="./src/IMG-20230506-WA0031.jpg" alt="Foto 24">
+        <img src="./src/IMG-20230305-WA0001.jpg" alt="Foto 25">
+        <img src="./src/IMG_20221106_163233_961.jpg" alt="Foto 26">
+        <img src="./src/IMG-20220909-WA0018 (1).jpg" alt="Foto 27">
+        <img src="./src/IMG_20220611_160145_036.webp" alt="Foto 28">
       </div>
       <div class="controles">
         <button onclick="mudarSlide(-1)">❮</button>
@@ -126,85 +53,144 @@
     <audio id="musica" src="./src/Rubel.mp3" autoplay loop muted></audio>
 
     <script>
-  /* ===== Fundo animado ===== */
-  const frases = [
-    "Eu te amo ❤️",
-    "Saudade 😘",
-    "Meu bem 💕",
-    "Você é especial 🌹",
-    "Sempre com você 💖",
-    "Amor eterno 💞",
-    "Meu coração é seu 💓",
-    "Você me faz sorrir 😊",
-    "Minha vida 💍",
-    "Te quero sempre 💌",
-    "OIIIII GATINHAAA 💓",
-    "meu Girasol 💓",
-    "Bemzinhoooo 💓",
-    "vidinha minha💓",
-    "É só vc 💓"
-  ];
+    /* ===== Fundo animado ===== */
+    const frases = [
+      "Eu te amo ❤️",
+      "Saudade 😘",
+      "Meu bem 💕",
+      "Você é especial 🌹",
+      "Sempre com você 💖",
+      "Amor eterno 💞",
+      "Meu coração é seu 💓",
+      "Você me faz sorrir 😊",
+      "Minha vida 💍",
+      "Te quero sempre 💌",
+      "OIIIII GATINHAAA 💓",
+      "meu Girasol 💓",
+      "Bemzinhoooo 💓",
+      "vidinha minha💓",
+      "É só vc 💓"
+    ];
 
-  function criarItem(x = Math.random() * window.innerWidth, y = -50) {
-    const item = document.createElement("div");
-    item.classList.add("item");
-    item.style.left = x + "px";
-    item.style.top = y + "px";
-    item.style.fontSize = (Math.random() * 30 + 15) + "px";
+function criarItem(x = Math.random() * window.innerWidth, y = -50) {
+  const minDist = 80; // distância mínima em pixels entre itens na horizontal
+  const ativos = document.querySelectorAll(".item");
+  let tentativas = 0;
 
-    if (Math.random() < 0.6) {
-      item.innerText = "❤️";
-    } else {
-      item.innerText = frases[Math.floor(Math.random() * frases.length)];
-      item.style.color = "pink";
-    }
-
-    document.body.appendChild(item);
-    setTimeout(() => item.remove(), 6000);
+  // Garante que não vai nascer muito perto de outro
+  while (tentativas < 10) {
+    let sobreposto = false;
+    ativos.forEach(el => {
+      const elX = parseFloat(el.style.left);
+      if (Math.abs(elX - x) < minDist) {
+        sobreposto = true;
+      }
+    });
+    if (!sobreposto) break;
+    x = Math.random() * window.innerWidth;
+    tentativas++;
   }
 
-  setInterval(() => {
-    for (let i = 0; i < 5; i++) {
-      criarItem();
-    }
-  }, 300);
+  const item = document.createElement("div");
+  item.classList.add("item");
+  item.style.left = x + "px";
+  item.style.top = y + "px";
+  item.style.zIndex = 2;
 
-  document.body.addEventListener("click", (e) => {
-    for (let i = 0; i < 20; i++) {
-      setTimeout(() => criarItem(
-        e.clientX + Math.random() * 120 - 60,
-        e.clientY + Math.random() * 120 - 60
-      ), i * 40);
-    }
-  });
-
-  /* ===== Carrossel ===== */
-  let slideIndex = 0;
-  const slides = document.querySelector(".slides");
-  const totalSlides = document.querySelectorAll(".slides img").length;
-
-  function mudarSlide(direcao) {
-    slideIndex = (slideIndex + direcao + totalSlides) % totalSlides;
-    slides.style.transform = `translateX(${-slideIndex * 100}%)`;
+  // Define texto e cor
+  if (Math.random() < 0.6) {
+    item.innerText = "❤️";
+  } else {
+    item.innerText = frases[Math.floor(Math.random() * frases.length)];
   }
+  item.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
 
-  // Troca automático a cada 4 segundos
-  setInterval(() => {
-    mudarSlide(1);
-  }, 4000);
+  document.body.appendChild(item);
 
-  /* ===== Música ===== */
+  const carrosselRect = document.querySelector(".carrossel").getBoundingClientRect();
+  let top = parseFloat(item.style.top);
+  const velocidade = 1 + Math.random();
+
+  const animar = setInterval(() => {
+    top += velocidade;
+    item.style.top = top + "px";
+
+    const itemRect = item.getBoundingClientRect();
+    const sobreCarrossel =
+      itemRect.right > carrosselRect.left &&
+      itemRect.left < carrosselRect.right &&
+      itemRect.bottom > carrosselRect.top &&
+      itemRect.top < carrosselRect.bottom;
+
+    item.style.opacity = sobreCarrossel ? 0.1 : 1;
+
+    if (top > window.innerHeight) {
+      clearInterval(animar);
+      item.remove();
+    }
+  }, 16);
+}
+
+
+    // Fundo animado automático
+    setInterval(() => {
+      for (let i = 0; i < 5; i++) {
+        criarItem();
+      }
+    }, 300);
+
+    // Fundo animado ao clique
+    document.body.addEventListener("click", (e) => {
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => criarItem(
+          e.clientX + Math.random() * 120 - 60,
+          e.clientY + Math.random() * 120 - 60
+        ), i * 40);
+      }
+    });
+
+    document.body.addEventListener("touchstart", (e) => {
+      const touch = e.touches[0];
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => criarItem(
+          touch.clientX + Math.random() * 120 - 60,
+          touch.clientY + Math.random() * 120 - 60
+        ), i * 40);
+      }
+    });
+
+    /* ===== Carrossel ===== */
+    let slideIndex = 0;
+    const slides = document.querySelector(".slides");
+    const totalSlides = document.querySelectorAll(".slides img").length;
+
+    function mudarSlide(direcao) {
+      slideIndex = (slideIndex + direcao + totalSlides) % totalSlides;
+      slides.style.transform = `translateX(${-slideIndex * 100}%)`;
+    }
+
+    setInterval(() => {
+      mudarSlide(1);
+    }, 4000);
+
+    /* ===== Música ===== */
     const musica = document.getElementById("musica");
 
-  // Ao primeiro clique, desmuta e continua tocando
-  document.addEventListener("click", () => {
-    if (musica.muted) {
-      musica.muted = false;
-      musica.play(); // garante que continue tocando
-      console.log("🎵 Música desmutada!");
+    function tocarMusica() {
+      if (musica.paused) {
+        musica.play();
+      } else {
+        musica.pause();
+      }
     }
-  });
-</script>
+
+    document.addEventListener("click", () => {
+      if (musica.muted) {
+        musica.muted = false;
+        musica.play();
+      }
+    });
+  </script>
 
   </body>
 </html>

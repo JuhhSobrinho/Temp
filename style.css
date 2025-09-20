@@ -1,0 +1,122 @@
+/* ===== Reset e corpo ===== */
+* {
+    box-sizing: border-box;
+    /* evita elementos ultrapassarem a tela */
+    max-width: 100%;
+    /* nunca ultrapassa 100% da tela */
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    /* remove scroll horizontal */
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    color: white;
+    user-select: none;
+}
+
+/* ===== Fundo animado ===== */
+.item {
+    position: fixed; /* muda de absolute para fixed para não influenciar o body */
+    left: 0;
+    top: 0;
+    transform: translate(var(--x, 0px), var(--y, 0px));
+    font-size: clamp(12px, 5vw, 30px);
+    font-weight: bold;
+    animation: cair 6s linear forwards;
+    white-space: nowrap;
+    max-width: 100vw; /* nunca maior que a tela */
+    overflow: hidden;
+    pointer-events: none; /* não interfere no clique */
+}
+
+@keyframes cair {
+    from {
+        transform: translateY(-50px);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+/* ===== Carrossel ===== */
+.carrossel {
+    position: relative;
+    width: 90%;
+    /* ocupa quase toda a tela */
+    max-width: 500px;
+    /* limite em telas grandes */
+    aspect-ratio: 4/5;
+    /* altura proporcional à largura */
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 0, 100, 0.7);
+    z-index: 1;
+}
+
+/* Slides */
+.slides {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slides img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* ===== Botões ===== */
+.controles {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.controles button {
+    background: rgba(0, 0, 0, 0.3);
+    /* sem fundo transparente total */
+    border: none;
+    color: white;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: 0.2s;
+}
+
+.controles button:hover {
+    background: rgba(255, 0, 100, 0.7);
+    transform: scale(1.2);
+}
+
+/* ===== Botão de música ===== */
+.musica-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: crimson;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1;
+}
